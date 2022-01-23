@@ -1,3 +1,5 @@
+package Entities;
+
 public class Prof extends Person{
 private String type;
     public Prof(String firstname,String lastname,String username,String password,String type){

@@ -1,3 +1,5 @@
+package Entities;
+
 public  class Person {
     private String firstname;
     private String lastname;

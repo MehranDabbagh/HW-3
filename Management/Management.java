@@ -1,3 +1,10 @@
+package Management;
+
+import Entities.Course;
+import Entities.Employee;
+import Entities.Prof;
+import Entities.Student;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -46,7 +53,7 @@ public class Management {
                 return;
             }
         }}
-        System.out.println("there is no Student with this username!");
+        System.out.println("there is no Entities.Student with this username!");
 
     }
     public void editingStudent(){

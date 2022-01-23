@@ -1,3 +1,5 @@
+package Entities;
+
 public class Employee extends Person{
     private String payment;
     public Employee(String firstname,String lastname,String username,String password){

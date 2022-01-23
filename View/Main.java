@@ -1,3 +1,7 @@
+package View;
+
+import Management.Management;
+
 import java.util.Scanner;
 
 public class Main {

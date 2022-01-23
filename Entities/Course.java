@@ -1,3 +1,5 @@
+package Entities;
+
 public class Course {
     private String name;
     private String profname;
