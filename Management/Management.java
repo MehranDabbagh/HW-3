@@ -1,10 +1,13 @@
 package Management;
 
+import CustomExceptions.OutOfRangeInput;
+import CustomExceptions.OutOfRangeTerm;
 import Entities.Course;
 import Entities.Employee;
 import Entities.Prof;
 import Entities.Student;
 
+import java.util.InputMismatchException;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -59,11 +62,15 @@ public class Management {
     public void editingStudent(){
         System.out.println("please enter student's username:");
         String username=input.next();
+        try{
         for (int i=0;i<studentIndex;i++){
             if(students[i]!=null){
             if(Objects.equals(students[i].getUsername(), username)){
                 System.out.println("please enter 0 for editing firstname,1 for last name,2 for username,3 for password");
                int operator=input.nextInt();
+               if(operator>3 || operator<0 ){
+                   throw new OutOfRangeInput("please enter something in range!");
+               }
                 System.out.println("enter the new value:");
                String newvalue=input.next();
                switch (operator){
@@ -74,7 +81,15 @@ public class Management {
                }
             }}
         }
-        System.out.println("there is no student with this username!");
+        System.out.println("there is no student with this username!");}
+        catch (OutOfRangeInput e){
+            System.out.println(e.getMessage());
+        }
+        catch (NullPointerException e){
+
+        }catch (InputMismatchException e){
+            System.out.println("please enter a number!");
+        }
     }
     public void registerProf(){
         System.out.println("please enter firstname:");

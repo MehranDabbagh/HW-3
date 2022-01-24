@@ -131,23 +131,14 @@ public static void profMenu(String username,String password){
                     System.out.println("enter your term for seeing your payment(like 1395/1)");
                    try{
                        String input1=input.next();
+                       if(input1.length()!=6 || input1.charAt(5)!='/'){
+                           throw new TermFormat("wrong term format!");
+                       }
                     String[] a=input1.split("/");
                     if(Integer.valueOf(a[0])<1390 || Integer.valueOf(a[1])>2 || Integer.valueOf(a[1])<1 || Integer.valueOf(a[0])>1400 )
                     {
                         throw new OutOfRangeTerm("there is no term with this details!");
                     }
-                    int sum=0;
-                       for (Character c:input1.toCharArray()
-                            ) {
-                           if(c=='/'){
-                               sum++;
-                           }
-                       }
-                       if(sum==0){
-                           throw new TermFormat("you forgot the backslash!");
-                       }else if(sum>1){
-                           throw new TermFormat("too many backslash!!");
-                       }
                     management.showingProfPayment(username,input1);
                    }
                    catch (InputMismatchException e){
