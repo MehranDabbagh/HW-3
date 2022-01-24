@@ -126,7 +126,7 @@ public static void profMenu(String username,String password){
             }
             switch (operator){
                 case 1:management.showingProfDetail(username);break;
-                case 2:management.submitingScores(username);break;
+                case 2:management.submittingScores(username);break;
                 case 3:
                     System.out.println("enter your term for seeing your payment(like 1395/1)");
                    try{

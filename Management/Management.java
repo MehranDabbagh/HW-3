@@ -20,6 +20,10 @@ public class Management {
     private int profIndex;
     private int employeeIndex;
     private int courseIndex;
+    private StudentManagement studentManagement=new StudentManagement();
+    private ProfManagement profManagement=new ProfManagement();
+    private  EmployeeManagement employeeManagement=new EmployeeManagement();
+   private CourseManagement courseManagement=new CourseManagement();
     Scanner input=new Scanner(System.in);
     public Management() {
         students=new Student[20];
@@ -42,22 +46,14 @@ public class Management {
         String username=input.next();
         System.out.println("please enter password:");
         String password=input.next();
-        students[studentIndex]=new Student(firstname,lastname,username,password);
+        students[studentIndex]= studentManagement.register(firstname,lastname,username,password);
         studentIndex++;
         System.out.println("done!");
     }
     public void deletingStudent(){
         System.out.println("please enter student's username:");
         String username=input.next();
-        for (int i=0;i<studentIndex;i++){
-            if(students[i]!=null){
-            if(Objects.equals(students[i].getUsername(), username)){
-                students[i]=null;
-                return;
-            }
-        }}
-        System.out.println("there is no Entities.Student with this username!");
-
+     students= studentManagement.delete(students,studentIndex,username);
     }
     public void editingStudent(){
         System.out.println("please enter student's username:");
@@ -73,12 +69,7 @@ public class Management {
                }
                 System.out.println("enter the new value:");
                String newvalue=input.next();
-               switch (operator){
-                   case 0:students[i].setFirstname(newvalue);return;
-                   case 1:students[i].setLastname(newvalue);return;
-                   case 2: students[i].setUsername(newvalue);return;
-                   case 3: students[i].setPassword(newvalue);return;
-               }
+         students=studentManagement.editing(students,i,operator,newvalue);
             }}
         }
         System.out.println("there is no student with this username!");}
@@ -102,7 +93,7 @@ public class Management {
         String password=input.next();
         System.out.println("please enter type(hagholtadris/heyatelmi):");
         String type=input.next();
-        profs[profIndex]=new Prof(firstname,lastname,username,password,type);
+        profs[profIndex]= profManagement.register(firstname,lastname,username,password,type);
         profIndex++;
         System.out.println("done!");
     }
@@ -112,7 +103,7 @@ public class Management {
         for (int i=0;i<profIndex;i++){
             if(profs[i]!=null){
             if(Objects.equals(profs[i].getUsername(), username)){
-                profs[i]=null;
+               profs= profManagement.delete(profs,profIndex,username);
                 return;
             }
         }}
@@ -148,7 +139,7 @@ public class Management {
         String username=input.next();
         System.out.println("please enter password:");
         String password=input.next();
-        employees[employeeIndex]=new Employee(firstname,lastname,username,password);
+        employees[employeeIndex]= employeeManagement.register(firstname,lastname,username,password);
 employeeIndex++;
     }
     public void deletingEmployee(){
@@ -173,12 +164,7 @@ employeeIndex++;
                 int operator=input.nextInt();
                 System.out.println("enter new value:");
                 String newvalue=input.next();
-                switch (operator){
-                    case 0:employees[i].setFirstname(newvalue);return;
-                    case 1:employees[i].setLastname(newvalue);return;
-                    case 2: employees[i].setUsername(newvalue);return;
-                    case 3: employees[i].setPassword(newvalue);return;
-                }
+              employees=employeeManagement.editing(employees,i,operator,newvalue);
                 return;
             }
         }}
@@ -193,22 +179,15 @@ employeeIndex++;
         String term=input.next();
         System.out.println("please enter unit:");
         int unit=input.nextInt();
-        courses[courseIndex]=new Course(coursename,profname,term,unit);
+        courses[courseIndex]= courseManagement.register(coursename,profname,term,unit);
         courseIndex++;
         System.out.println("done!");
     }
     public void deleteCourse(){
         System.out.println("enter the course's name:");
         String name=input.next();
-        for (int i=0;i<courseIndex;i++){
-            if(courses[i]!=null){
-                if(Objects.equals(courses[i].getName(), name)){
-                    courses[i]=null;
-                    return;
-                }
-            }
-        }
-        System.out.println("there is no course with this name!");
+       courses=courseManagement.delete(courses,courseIndex,name);
+
     }
     public void editingCourse(){
         System.out.println("enter the course's name:");
@@ -220,12 +199,7 @@ employeeIndex++;
                     int operator=input.nextInt();
                     System.out.println("enter new value:");
                     String newvalue=input.next();
-                    switch (operator){
-                        case 0:courses[i].setName(newvalue);return;
-                        case 1:courses[i].setProfname(newvalue);return;
-                        case 2: courses[i].setTerm(newvalue);return;
-                        case 3: courses[i].setUnit(Integer.parseInt(newvalue));return;
-                    }
+
                     return;
                 }
             }
@@ -233,112 +207,33 @@ employeeIndex++;
         System.out.println("there is no course with this name!");
     }
     public void showingEmployeePayment(String username){
-        for (int i=0;i<employeeIndex;i++){
-            if(employees[i]!=null){
-                if(Objects.equals(employees[i].getUsername(), username)){
-                    System.out.println("firstname:"+employees[i].getFirstname()+" lastname:"+employees[i].getLastname()+" payment:"+employees[i].getPayment());
-                    return;
-                }
-            }}
+       employeeManagement.showingEmployeePayment(employees,employeeIndex,username);
     }
     public void showingStudentDetail(String username){
-        for (int i=0;i<studentIndex;i++){
-            if(students[i]!=null){
-                if(Objects.equals(students[i].getUsername(), username)){
-                    System.out.println("firstname:"+students[i].getFirstname()+" lastname:"+students[i].getLastname());
-                }
-            }
-        }
+     studentManagement.showingStudentDetails(students,studentIndex,username);
     }
     public void showingCourses(){
-        for (int i=0;i<courseIndex;i++){
-          if(courses[i]!=null){
-              System.out.println(i+"."+"course name:"+courses[i].getName()+" profname:"+courses[i].getProfname()+" term:"+courses[i].getTerm()+" unit:"+courses[i].getUnit());
-          }
-        }
+courseManagement.showingCourses(courses,courseIndex);
     }
     public void entekhabvahed(String username){
-for(int i=0;i<studentIndex;i++){
-    if(students[i]!=null){
-        if(Objects.equals(students[i].getUsername(), username)){
-            showingCourses();
-            System.out.println("please enter course's id:");
-            int course=input.nextInt();
-            if(course<courseIndex && courses[course]!=null){
-                String[] lastterm=courses[course].getTerm().split("/");
-                if(Objects.equals(lastterm[1], "1")){
-                    lastterm[0]=String.valueOf(Integer.parseInt(lastterm[0])-1);
-                    lastterm[1]="2";
-                }else if(Objects.equals(lastterm[1], "2")){
-                    lastterm[1]="1";
-                }
-                String exTerm=lastterm[0]+"/"+lastterm[1];
-                if(students[i].averageScorePerTerm(exTerm)>18){
-                   if(students[i].unitPerTerm(courses[course].getTerm())<(24-courses[course].getUnit())){
-                       students[i].entekhabvahed(courses[course]);
-                   }else System.out.println("you can not pick this course it is gonna be more than 24 unit!");
-                }else{
-                    if(students[i].unitPerTerm(courses[course].getTerm())<(20-courses[course].getUnit())){
-                        students[i].entekhabvahed(courses[course]);
-                    }else System.out.println("you can not pick this course it is gonna be more than 20 unit!");
-                }
-            }else System.out.println("this number is invalid please try again!");
 
-
-        }
-    }
-}
+    int courseId= input.nextInt();
+students=studentManagement.entekhabvahed(students,studentIndex,username,courses,courseIndex,courseId);
     }
     public void showingProfDetail(String username){
-        for(int i=0;i<profIndex;i++){
-            if(profs[i]!=null){
-                if(Objects.equals(profs[i].getUsername(), username)){
-                    System.out.println("firstname:"+profs[i].getFirstname()+" lastname:"+profs[i].getLastname()+" type:"+profs[i].getType());
-                }
-            }
-        }
+        profManagement.showingProfDetails(profs,profIndex,username);
     }
-    public void submitingScores(String username){
+    public void submittingScores(String username){
         System.out.println("please enter the student's username:");
         String student=input.next();
         System.out.println("please enter the course's username:");
         String course=input.next();
         System.out.println("please enter th score (0-20)");
         int score=input.nextInt();
-        if(score<0 || score >20){
-            System.out.println("undefined!");
-            return;
-        }
-        for(int i=0;i<studentIndex;i++){
-            if(students[i]!=null){
-                if(Objects.equals(students[i].getUsername(), student)){
-                    if(students[i].submitingScore(course,username,score)){
-                        System.out.println("done");
-                    }else System.out.println("undefined!");
-                }
-            }
-        }
-
+       students=profManagement.submittingScore(students,studentIndex,course,score,student,username);
     }
     public void showingProfPayment(String  username,String term){
-        for(int i=0;i<profIndex;i++){
-            if(profs[i]!=null){
-              if(Objects.equals(profs[i].getUsername(), username)){
-                  int sum=0;
-                 for(int j=0;j<courseIndex;j++){
-                     if(Objects.equals(courses[j].getProfname(), profs[i].getLastname()) && Objects.equals(courses[j].getTerm(), term)){
-                         sum+=courses[j].getUnit();
-                     }
-                 }
-                  if(Objects.equals(profs[i].getType(), "hagholtadris")){
-                      System.out.println("MR/MS"+profs[i].getFirstname()+" "+profs[i].getLastname()+" your salary is:"+(sum*1000000)+"TOOMAN");
-                  } else if(Objects.equals(profs[i].getType(), "heyatelmi")){
-                      System.out.println("MR/MS"+profs[i].getFirstname()+" "+profs[i].getLastname()+" your salary is:"+((sum*1000000)+5000000)+"TOOMAN");
-
-                  }
-              }
-            }
-        }
+profManagement.showingProfPayment(profs,profIndex,courses,courseIndex,username,term);
     }
     public String login(String username,String password){
         for(int i=0;i<profIndex;i++){
@@ -362,13 +257,7 @@ for(int i=0;i<studentIndex;i++){
         return "undefined";
     }
     public void showingStudentCourses(String username){
-        for(int i=0;i<studentIndex;i++){
-            if(students[i]!=null){
-                if(Objects.equals(students[i].getUsername(), username)){
-                    students[i].showingCourses();
-                }
-            }
-        }
+       studentManagement.showingStudentCourses(students,studentIndex,username);
     }
 }
 
