@@ -37,22 +37,12 @@ public class Management {
         employeeIndex=1;
 
     }
-    public void registerStudent() {
-        System.out.println("please enter firstname:");
-        String firstname=input.next();
-        System.out.println("please enter lastname:");
-        String lastname=input.next();
-        System.out.println("please enter username:");
-        String username=input.next();
-        System.out.println("please enter password:");
-        String password=input.next();
-        students[studentIndex]= studentManagement.register(firstname,lastname,username,password);
+    public void registerStudent(String firstname,String lastName,String username,String password) {
+        students[studentIndex]= studentManagement.register(firstname,lastName,username,password);
         studentIndex++;
-        System.out.println("done!");
     }
-    public void deletingStudent(){
-        System.out.println("please enter student's username:");
-        String username=input.next();
+    public void deletingStudent(String username){
+
      students= studentManagement.delete(students,studentIndex,username);
     }
     public void editingStudent(){
