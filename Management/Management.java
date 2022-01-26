@@ -37,12 +37,21 @@ public class Management {
         employeeIndex=1;
 
     }
-    public void registerStudent(String firstname,String lastName,String username,String password) {
-        students[studentIndex]= studentManagement.register(firstname,lastName,username,password);
+    public void registerStudent() {
+        System.out.println("please enter firstname:");
+        String firstname=input.next();
+        System.out.println("please enter lastname:");
+        String lastname=input.next();
+        System.out.println("please enter username:");
+        String username=input.next();
+        System.out.println("please enter password:");
+       String password=input.next();
+        students[studentIndex]= studentManagement.register(firstname,lastname,username,password);
         studentIndex++;
     }
-    public void deletingStudent(String username){
-
+    public void deletingStudent(){
+        System.out.println("please enter student's username:");
+       String username=input.next();
      students= studentManagement.delete(students,studentIndex,username);
     }
     public void editingStudent(){
@@ -102,23 +111,38 @@ public class Management {
     public void editingProf(){
         System.out.println("please enter prof's username:");
         String username=input.next();
-        for (int i=0;i<profIndex;i++){
-            if(profs[i]!=null){
-            if(Objects.equals(profs[i].getUsername(), username)){
-                System.out.println("please enter 0 for editing firstname,1 for last name,2 for username,3 for password,4 for type");
-                int operator=input.nextInt();
-                System.out.println("enter the new value:");
-                String newvalue=input.next();
-                switch (operator){
-                    case 0:profs[i].setFirstname(newvalue);
-                    case 1:profs[i].setLastname(newvalue);
-                    case 2:profs[i].setUsername(newvalue);
-                    case 3:profs[i].setPassword(newvalue);
-                    case 4:profs[i].setType(newvalue);
+        try {
+            for (int i = 0; i < profIndex; i++) {
+                if (profs[i] != null) {
+                    if (Objects.equals(profs[i].getUsername(), username)) {
+                        System.out.println("please enter 0 for editing firstname,1 for last name,2 for username,3 for password,4 for type");
+                        int operator = input.nextInt();
+                        if(operator>4 || operator<0){
+                            throw new OutOfRangeInput("please enter something in range!");
+                        }
+                        System.out.println("enter the new value:");
+                        String newvalue = input.next();
+                        switch (operator) {
+                            case 0:
+                                profs[i].setFirstname(newvalue);return;
+                            case 1:
+                                profs[i].setLastname(newvalue);return;
+                            case 2:
+                                profs[i].setUsername(newvalue);return;
+                            case 3:
+                                profs[i].setPassword(newvalue);return;
+                            case 4:
+                                profs[i].setType(newvalue);return;
+                        }
+                    }
                 }
-            }}
+            }
+            System.out.println("there is no prof with this username!");
+        }catch (InputMismatchException e){
+            System.out.println("please enter a number!");
+        }catch (OutOfRangeInput e){
+            System.out.println(e.getMessage());
         }
-        System.out.println("there is no prof with this username!");
     }
     public void registerEmployee(){
         System.out.println("please enter firstname:");
@@ -151,11 +175,21 @@ employeeIndex++;
             if(employees[i]!=null){
             if(Objects.equals(employees[i].getUsername(), username)){
                 System.out.println("please enter 0 for editing firstname,1 for last name,2 for username,3 for password");
-                int operator=input.nextInt();
-                System.out.println("enter new value:");
-                String newvalue=input.next();
-              employees=employeeManagement.editing(employees,i,operator,newvalue);
-                return;
+                try {
+                    int operator=input.nextInt();
+                    if(operator>3 || operator<0){
+                        throw new OutOfRangeInput("please enter something in range!");
+                    }
+                    System.out.println("enter new value:");
+                    String newvalue=input.next();
+                    employees=employeeManagement.editing(employees,i,operator,newvalue);
+                    return;
+                }catch (InputMismatchException e){
+                    System.out.println("please enter a number!");
+                }catch (OutOfRangeInput e){
+                    System.out.println(e.getMessage());
+                }
+
             }
         }}
         System.out.println("there is no employee with this username!");
@@ -186,11 +220,21 @@ employeeIndex++;
             if(courses[i]!=null){
                 if(Objects.equals(courses[i].getName(), name)){
                     System.out.println("please enter 0 for editing coursename,1 for  profname,2 for term(like 1395-1),3 for unit");
-                    int operator=input.nextInt();
-                    System.out.println("enter new value:");
-                    String newvalue=input.next();
+                   try {
+                       int operator=input.nextInt();
+                       if(operator>3 || operator<0 ){
+                           throw new OutOfRangeInput("please enter something in range!");
+                       }
+                       System.out.println("enter new value:");
+                       String newvalue=input.next();
+                       courseManagement.editing(courses,i,operator,newvalue);
+                       return;
+                   }catch (InputMismatchException e){
+                       System.out.println("please enter a number!");
+                   }catch (OutOfRangeInput e){
+                       System.out.println(e.getMessage());
+                   }
 
-                    return;
                 }
             }
         }
@@ -206,9 +250,12 @@ employeeIndex++;
 courseManagement.showingCourses(courses,courseIndex);
     }
     public void entekhabvahed(String username){
-
+try{
     int courseId= input.nextInt();
-students=studentManagement.entekhabvahed(students,studentIndex,username,courses,courseIndex,courseId);
+students=studentManagement.entekhabvahed(students,studentIndex,username,courses,courseIndex,courseId);}
+catch (InputMismatchException e){
+    System.out.println("please enter a number!");
+}
     }
     public void showingProfDetail(String username){
         profManagement.showingProfDetails(profs,profIndex,username);
@@ -219,8 +266,18 @@ students=studentManagement.entekhabvahed(students,studentIndex,username,courses,
         System.out.println("please enter the course's username:");
         String course=input.next();
         System.out.println("please enter th score (0-20)");
-        int score=input.nextInt();
-       students=profManagement.submittingScore(students,studentIndex,course,score,student,username);
+        try {
+            int score=input.nextInt();
+            if(score>20 || score<0){
+                throw new OutOfRangeInput( "please enter something in range!");
+            }
+            students=profManagement.submittingScore(students,studentIndex,course,score,student,username);
+        }catch (InputMismatchException e){
+            System.out.println("please enter a number!");
+        }catch (OutOfRangeInput e){
+            System.out.println(e.getMessage());
+        }
+
     }
     public void showingProfPayment(String  username,String term){
 profManagement.showingProfPayment(profs,profIndex,courses,courseIndex,username,term);

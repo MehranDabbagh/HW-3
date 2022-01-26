@@ -60,16 +60,8 @@ public static void employeeMenu(String username,String password)  {
                 }
 
             switch (operator){
-                case 1:  System.out.println("please enter firstname:");
-                    String firstname=input.next();
-                    System.out.println("please enter lastname:");
-                    String lastname=input.next();
-                    System.out.println("please enter username:");
-                     username=input.next();
-                    System.out.println("please enter password:");
-                     password=input.next();management.registerStudent(firstname,lastname,username,password);break;
-                case 2: System.out.println("please enter student's username:");
-                    username=input.next();management.deletingStudent(username);break;
+                case 1: management.registerStudent();break;
+                case 2: management.deletingStudent();break;
                 case 3:management.editingStudent();break;
                 case 4:management.registerProf();break;
                 case 5:management.deletingProf();break;
